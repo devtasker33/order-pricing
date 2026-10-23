@@ -7,9 +7,9 @@ def subtotal(items):
     return sum(item["price"] * item["qty"] for item in items)
 
 
-def apply_tax(amount, rate=TAX_RATE):
-    """Add VAT to an amount."""
-    return amount * (1 + rate)
+def add_vat(amount, rate=TAX_RATE):
+    """Add VAT to an amount, rounded to the cent."""
+    return round(amount * (1 + rate), 2)
 
 
 def shipping(amount):
@@ -19,6 +19,8 @@ def shipping(amount):
 
 def compute_total(order):
     """Total the customer pays: subtotal + VAT + shipping."""
+    if not order["items"]:
+        raise ValueError("order has no items")
     sub = subtotal(order["items"])
-    total = apply_tax(sub) + shipping(sub)
-    return total
+    total = add_vat(sub) + shipping(sub)
+    return round(total, 2)
