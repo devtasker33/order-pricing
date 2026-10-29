@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased (feature/discounts)
+- Discount codes on the order subtotal, capped at 30%.
+- Cart page price with a code applied.
+
 ## 1.3.1
 - VAT rounded to the cent (renamed apply_tax to add_vat).
 - Empty orders are rejected.

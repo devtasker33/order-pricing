@@ -1,5 +1,6 @@
 """Order pricing: subtotal, VAT, shipping and total."""
 from order_pricing.config import TAX_RATE, SHIPPING_FEE, FREE_SHIPPING_THRESHOLD
+from order_pricing.discounts import discount_amount
 
 
 def subtotal(items):
@@ -22,5 +23,7 @@ def compute_total(order):
     if not order["items"]:
         raise ValueError("order has no items")
     sub = subtotal(order["items"])
+    sub = sub - discount_amount(sub, order.get("discount_code"))
+
     total = add_vat(sub) + shipping(sub)
     return round(total, 2)
